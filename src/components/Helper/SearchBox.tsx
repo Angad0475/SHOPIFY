@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { SearchIcon } from "lucide-react";
 
 const SearchBox = () => {
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -11,15 +11,22 @@ const SearchBox = () => {
   };
 
   return (
-    <form onSubmit={handleSearch} className="space-x-10">
+    <form
+      onSubmit={handleSearch}
+      className="flex items-center bg-gray-300 rounded-lg px-2 py-1 
+                 w-40 sm:w-48 md:w-64 lg:w-80"
+    >
       <input
         type="text"
         value={query}
-        onChange={(e) => setQuery(e.target.value)} // ✅ fixed this line
-        placeholder="Search" className=" bg-gray-300 rounded-lg px-6 py-2  outline-none
-        "
+        onChange={(e) => setQuery(e.target.value)}
+        placeholder="Search"
+        className="flex-grow bg-transparent outline-none px-2 
+                   text-xs sm:text-sm md:text-base"
       />
-      <button type="submit" className="text-black "><SearchIcon className="cursor-pointer"/></button>
+      <button type="submit" className="text-black p-1">
+        <SearchIcon size={18} className="cursor-pointer" />
+      </button>
     </form>
   );
 };
