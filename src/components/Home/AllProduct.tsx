@@ -1,5 +1,5 @@
 'use client';
-import { Product } from '../../../typing';
+import { Product } from '../../schemas/product';
 import React, { useEffect, useState } from "react";
 import { getAllProduct } from '../../../Request/requests';
 import { Loader } from 'lucide-react';
@@ -43,7 +43,7 @@ const AllProduct = () => {
             ) : products.length === 0 ? (
                 <p className="text-center text-gray-500 mt-8">No products found.</p>
             ) : (
-                <div className="w-11/12 md:w-4/5 mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <div className="container w-11/12 md:w-4/5 mx-auto grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                     {products.map((product) => (
                         <ProductCard key={product.id} product={product} />
                     ))}

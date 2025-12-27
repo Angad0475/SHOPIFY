@@ -18,7 +18,7 @@ const Category = async () => {
         Shop by category
       </h1>
 
-      <div className="mt-12 w-11/12 md:w-4/5 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <div className="container mt-12 w-11/12 md:w-4/5 mx-auto grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {categories.map((category) => (
           <div
             key={category}
