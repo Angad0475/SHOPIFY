@@ -3,13 +3,16 @@ import AddToCart from "../[id]/add-cart";
 import Link from "next/link";
 import axios from "axios";
 
+// Optional but very safe for dynamic product pages
+export const dynamic = "force-dynamic";
+
 export default async function ProductDetailsPage({ params }: any) {
-  // Fetch current product
+  // 1️⃣ Fetch current product
   const { data: product } = await axios.get(
     `https://fakestoreapi.com/products/${params.id}`
   );
 
-  // Fetch related products (same category, exclude current product)
+  // 2️⃣ Fetch related products (same category, exclude current product)
   const { data: relatedProductsData } = await axios.get(
     `https://fakestoreapi.com/products/category/${product.category}`
   );
