@@ -1,21 +1,20 @@
 import ProductDetails from "@/components/product-details/productDetails";
 import AddToCart from "../[id]/add-cart";
 import Link from "next/link";
+import axios from "axios";
 
 export default async function ProductDetailsPage({ params }: any) {
   // Fetch current product
-  const res = await fetch(
+  const { data: product } = await axios.get(
     `https://fakestoreapi.com/products/${params.id}`
   );
-  const product = await res.json();
 
   // Fetch related products (same category, exclude current product)
-  const relatedRes = await fetch(
+  const { data: relatedProductsData } = await axios.get(
     `https://fakestoreapi.com/products/category/${product.category}`
   );
-  let relatedProducts = await relatedRes.json();
 
-  relatedProducts = relatedProducts.filter(
+  const relatedProducts = relatedProductsData.filter(
     (p: any) => p.id !== product.id
   );
 
