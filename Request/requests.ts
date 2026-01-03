@@ -1,28 +1,23 @@
-import axios from "axios";
 import { Product, ProductSchema } from "@/schemas/product";
+import { error } from "console";
 
-// Fetch all categories
-export async function getAllCategory(): Promise<string[]> {
-  try {
-    const { data } = await axios.get<string[]>(
-      "https://fakestoreapi.com/products/categories"
-    );
-    return data;
-  } catch (err) {
-    console.error("Failed to fetch categories", err);
-    return [];
-  }
+export async function getAllCategory() {
+  const res = await fetch("https://fakestoreapi.com/products/categories");
+  return res.json();
 }
 
-// Fetch all products
 export async function getAllProduct(): Promise<Product[]> {
-  try {
-    const { data } = await axios.get("https://fakestoreapi.com/products");
+  const res = await fetch("https://fakestoreapi.com/products");
 
-    // Validate with Zod
+  if (!res.ok) throw new Error("Failed to fetch products");
+
+  const data: unknown = await res.json();
+
+  try {
     return ProductSchema.array().parse(data);
   } catch (err) {
-    console.error("Failed to fetch or validate products", err);
+    console.error("Invalid product data", err);
     return [];
   }
 }
+
