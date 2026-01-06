@@ -1,5 +1,5 @@
 'use client';
-import { Product } from '../../schemas/product';
+import { Product } from '../../../typing';
 import React, { useEffect, useState } from "react";
 import { getAllProduct } from '../../../Request/requests';
 import { Loader } from 'lucide-react';

@@ -1,64 +1,12 @@
-import ProductDetails from "@/components/product-details/productDetails";
-import AddToCart from "../[id]/add-cart";
-import Link from "next/link";
-import axios from "axios";
+import ProductDetailsClient from "../../../../../components/product-details/productDetails";
 
-// Optional but very safe for dynamic product pages
-export const dynamic = "force-dynamic";
+interface Props {
+  params: Promise<{
+    id: string;
+  }>;
+}
 
-export default async function ProductDetailsPage({ params }: any) {
-  // 1️⃣ Fetch current product
-  const { data: product } = await axios.get(
-    `https://fakestoreapi.com/products/${params.id}`
-  );
-
-  // 2️⃣ Fetch related products (same category, exclude current product)
-  const { data: relatedProductsData } = await axios.get(
-    `https://fakestoreapi.com/products/category/${product.category}`
-  );
-
-  const relatedProducts = relatedProductsData.filter(
-    (p: any) => p.id !== product.id
-  );
-
-  return (
-    <div className="max-w-4xl mx-auto p-6">
-      {/* Product details */}
-      <ProductDetails product={product} />
-
-      <br />
-
-      {/* Add to cart */}
-      <AddToCart product={product} />
-
-      {/* Related products */}
-      <div className="mt-10">
-        <h2 className="text-xl font-semibold mb-4">
-          Related Products
-        </h2>
-
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-          {relatedProducts.map((item: any) => (
-            <Link
-              key={item.id}
-              href={`/product/product-details/${item.id}`}
-              className="border p-4 rounded-lg shadow-sm hover:shadow-md transition"
-            >
-              <img
-                src={item.image}
-                alt={item.title}
-                className="w-full h-40 object-contain mb-3"
-              />
-              <h3 className="text-sm font-medium line-clamp-2">
-                {item.title}
-              </h3>
-              <p className="text-gray-600">
-                ${item.price}
-              </p>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+export default async function Page({ params }: Props) {
+  const { id } = await params;
+  return <ProductDetailsClient id={id} />;
 }

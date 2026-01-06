@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { type Product } from "../../schemas/product";
+import { type Product } from "../../../typing";
 import Image from "next/image";
 import Link from "next/link";
 import { Heart, ShoppingBagIcon } from "lucide-react";
@@ -14,7 +14,7 @@ type Props = {
 };
 
 const ProductCard = ({ product }: Props) => {
-  const rate = product.rating?.rate ?? 0;
+  const rate = product.rating ?? 0;
   const num = Math.round(rate);
   const ratingArray = new Array(num).fill(0);
 
@@ -30,7 +30,7 @@ const ProductCard = ({ product }: Props) => {
       {/* Product Image */}
       <div className="flex justify-center items-center h-40 sm:h-48 md:h-56">
         <Image
-          src={product.image}
+          src={product.thumbnail}
           alt={product.title}
           width={200}
           height={200}
