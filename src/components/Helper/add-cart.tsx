@@ -1,8 +1,8 @@
 "use client"
 import React from "react";
-import { type Product } from "../../../../../../typing";
+import { type Product } from "../../../typing";
 import { useDispatch, UseDispatch } from "react-redux";
-import { addItem } from "../../../../../../store/cartSlice";
+import { addItem } from "../../../store/cartSlice";
 
 interface ProductProps {
     product: Product
