@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import { type Product } from "../../../typing";
+import { type Product } from "../../../../typing";
 import Image from "next/image";
 import Link from "next/link";
 import { Heart, ShoppingBagIcon } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { addItem } from "../../../store/cartSlice";
-import { RootState } from "../../../store/store";
+import { addItem } from "../../../../store/cartSlice";
+import { RootState } from "../../../../store/store";
 
 type Props = {
   product: Product;
