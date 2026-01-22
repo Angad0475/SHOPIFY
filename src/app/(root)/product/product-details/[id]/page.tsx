@@ -1,4 +1,4 @@
-import ProductDetailsClient from "../../../../../components/product-details/productDetails";
+import ProductDetailsClient from "@/components/product-details/productDetails";
 
 interface Props {
   params: Promise<{

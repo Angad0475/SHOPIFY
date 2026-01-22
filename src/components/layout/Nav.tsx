@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { SearchIcon, HeartIcon, ShoppingCart, Menu, X } from "lucide-react";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../store/store";
+import { RootState } from "@/../../store/store";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Nav = () => {
@@ -33,11 +33,10 @@ const Nav = () => {
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className={`h-auto md:h-[12vh] sticky top-0 z-[1000] w-full transition-all duration-300 ${
-        scrolled
+      className={`h-auto md:h-[12vh] sticky top-0 z-[1000] w-full transition-all duration-300 ${scrolled
           ? "bg-white/95 backdrop-blur-md shadow-xl"
           : "bg-gradient-to-r from-white via-blue-50/30 to-indigo-50/30 backdrop-blur-sm shadow-md"
-      }`}
+        }`}
     >
       {/* Premium Background Pattern */}
       <div className="absolute inset-0 opacity-5 pointer-events-none">
@@ -49,11 +48,11 @@ const Nav = () => {
         />
       </div>
 
-      <div
-  className="relative container mx-auto px-4 md:px-8 lg:px-16
+      <nav
+        className="relative container mx-auto px-4 md:px-8 lg:px-16
              h-[70px] md:h-[12vh]
              flex items-center justify-between"
->
+      >
 
         {/* Left Side: Logo */}
         <Link href="/" className="flex items-center space-x-3 group">
@@ -71,7 +70,7 @@ const Nav = () => {
           </motion.div>
           <motion.p
             className="text-black 
-                       text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight" style={{fontFamily: "cursive"}}
+                       text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight" style={{ fontFamily: "cursive" }}
             whileHover={{ scale: 1.02 }}
           >
             Shopify
@@ -120,7 +119,7 @@ const Nav = () => {
               className="text-gray-700 cursor-pointer hover:text-red-500 transition-colors hidden md:block drop-shadow-sm"
             />
           </motion.div>
-          
+
           {/* Shopping Cart with Badge - Desktop */}
           <motion.div
             className="relative hidden md:block"
@@ -201,7 +200,7 @@ const Nav = () => {
                     <HeartIcon size={24} className="text-gray-700 hover:text-red-500 transition-colors" />
                     <span className="text-gray-700 font-medium">Favorites</span>
                   </motion.div>
-                  
+
                   {/* Shopping Cart with Badge - Mobile */}
                   <Link href="/cart">
                     <motion.div
@@ -241,7 +240,7 @@ const Nav = () => {
             </>
           )}
         </AnimatePresence>
-      </div>
+      </nav>
     </motion.div>
   );
 };
