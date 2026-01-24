@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState, AddDispatch } from "@/../../store/store";
+import { RootState, AddDispatch } from "../../../store/store";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -10,8 +10,8 @@ import {
   removeItem,
   clearCart,
   CartItem,
-} from "@/../../store/cartSlice";
-import PaypalButton from "@/components/ui/PaypalButton";
+} from "../../../store/cartSlice";
+import PaypalButton from "../../components/ui/PaypalButton";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 

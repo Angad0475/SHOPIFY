@@ -4,8 +4,9 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { SearchIcon, HeartIcon, ShoppingCart, Menu, X } from "lucide-react";
 import { useSelector } from "react-redux";
-import { RootState } from "@/../../store/store";
+import { RootState } from "../../../store/store";
 import { motion, AnimatePresence } from "framer-motion";
+import SearchBox from "../ui/SearchBox";
 
 const Nav = () => {
   const [query, setQuery] = useState("");
@@ -70,7 +71,7 @@ const Nav = () => {
           </motion.div>
           <motion.p
             className="text-black 
-                       text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight" style={{ fontFamily: "cursive" }}
+                       text-2xl md:text-3xl lg:text-4xl font-bold tracking-tight"
             whileHover={{ scale: 1.02 }}
           >
             Shopify
@@ -78,7 +79,7 @@ const Nav = () => {
         </Link>
 
         {/* Center: Search Box */}
-        <motion.form
+        {/* <motion.form
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.5, delay: 0.2 }}
@@ -104,7 +105,8 @@ const Nav = () => {
           >
             <SearchIcon size={20} className="cursor-pointer" />
           </motion.button>
-        </motion.form>
+        </motion.form> */}
+        <SearchBox/>
 
         {/* Right Side: Icons - Desktop */}
         <motion.div

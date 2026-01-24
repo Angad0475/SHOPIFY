@@ -3,7 +3,7 @@
 import React from "react";
 import { ShoppingBagIcon } from "lucide-react";
 import { useSelector } from "react-redux";
-import { RootState } from "@../../../store/store";
+import { RootState } from "../../../store/store";
 
 function ShoppingCartButton() {
   const items = useSelector((state: RootState) => state.cart.items);
