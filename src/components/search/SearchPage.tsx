@@ -8,7 +8,7 @@ import ProductCard from "../homepage/product/ProductCard"; // adjust path
 
 const SearchPage = () => {
   const searchParams = useSearchParams();
-  const query = searchParams.get("q") || "";
+  const query = searchParams.get("query") || "";
 
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);

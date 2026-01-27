@@ -1,13 +1,13 @@
 "use client";
 
 import React from "react";
-import { type Product } from "../../../../typing";
+import { Product } from "../../../../typing";
 import Image from "next/image";
 import Link from "next/link";
 import { Heart, ShoppingBagIcon } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { addItem } from "../../../../store/cartSlice";
-import { RootState } from "../../../../store/store";
+import { AddDispatch } from "../../../../store/store";
 
 type Props = {
   product: Product;
@@ -19,7 +19,7 @@ const ProductCard = ({ product }: Props) => {
   const ratingArray = new Array(num).fill(0);
 
   
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AddDispatch>();
 
   const addToCartHandler = () => {
     dispatch(addItem(product));

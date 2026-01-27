@@ -1,8 +1,8 @@
-import Cartpage from "../../../components/cart/CartPage"
+import CartPage from "@/components/cart/CartPage";
 
 const Cart = () => {
   return (
-    <Cartpage/>
+    <CartPage/>
   )
 }
 export default Cart;

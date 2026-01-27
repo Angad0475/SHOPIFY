@@ -7,13 +7,13 @@ const SearchBox = () => {
   const [query, setQuery] = useState("");
   const router = useRouter();
 
-  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearch = (e: any) => {
     e.preventDefault();
 
     const trimmedQuery = query.trim();
     if (!trimmedQuery) return;
 
-    router.push(`/search?q=${encodeURIComponent(trimmedQuery)}`);
+    router.push(`/search?query=${trimmedQuery}`);
   };
 
   return (

@@ -1,4 +1,4 @@
-import ProductDetailsClient from "../../../../../components/product-details/productDetails";
+import ProductDetails from "@/components/product-details/productDetails";
 
 interface Props {
   params: Promise<{
@@ -8,5 +8,5 @@ interface Props {
 
 export default async function Page({ params }: Props) {
   const { id } = await params;
-  return <ProductDetailsClient id={id} />;
+  return <ProductDetails id={id}/>
 }
