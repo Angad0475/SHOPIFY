@@ -6,7 +6,6 @@ const Homepage = ()=>{
  return <>
         <Hero/>
         <Category/>
-        <AllProduct/>
    </>
 }
 export default Homepage;

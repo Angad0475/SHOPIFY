@@ -24,7 +24,7 @@ const Category = async () => {
       <div className="relative z-10">
         {/* Heading */}
         <div className="text-center mb-12">
-          <h1 className="text-base md:text-lg font-medium tracking-wide text-gray-800">
+          <h1 className="text-base md:text-7xl font-bold text-gray-800">
             Shop by Category
           </h1>
           <div className="w-10 h-[2px] bg-indigo-500 mx-auto mt-3 rounded-full" />
