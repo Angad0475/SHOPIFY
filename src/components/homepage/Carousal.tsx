@@ -54,14 +54,13 @@ const Carousel = ({ images }: ImageProps) => {
         {slides.map((src, i) => (
           <div
             key={i}
-            className="min-w-full h-[350px] rounded-2xl overflow-hidden shadow-lg"
+            className="min-w-full h-[550px] rounded-2xl overflow-hidden shadow-lg"
           >
             <Image
               src={src}
               alt=""
-              width={1200}
-              height={350}
-              className="min-w-full h-full object-cover"
+              width={1700}
+              height={550}
             />
           </div>
         ))}
