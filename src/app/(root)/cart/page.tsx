@@ -1,8 +1,8 @@
 import CartPage from "@/components/cart/CartPage";
 
-const Cart = () => {
+const Page = () => {
   return (
     <CartPage/>
   )
 }
-export default Cart;
+export default Page;

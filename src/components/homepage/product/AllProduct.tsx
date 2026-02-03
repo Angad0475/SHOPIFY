@@ -1,91 +1,101 @@
-// "use client";
+"use client";
 
-// import { useEffect, useRef, useState } from "react";
-// import { Product } from "../../../../typing";
-// import { getAllProduct } from "../../../../Request/requests";
-// import { ClipLoader } from "react-spinners";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { Product } from "../../../../typing";
+import { getProductsByCategory } from "../../../../Request/requests";
 
-// const LIMIT = 30;              // industry: batch size
-// const CATEGORIES_PER_LOAD = 3;
+interface CategoryProductProps {
+  categorySlug: string;
+}
 
-// const AllProduct = () => {
-//   const [products, setProducts] = useState<Product[]>([]);
-//   const [skip, setSkip] = useState(0);
-//   const [loading, setLoading] = useState(false);
-//   const [hasMore, setHasMore] = useState(true);
-//   const [visibleCategories, setVisibleCategories] = useState(3);
+const Allproducts = ({ categorySlug }: CategoryProductProps) => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-//   const observer = useRef<IntersectionObserver | null>(null);
-//   const lastCategoryRef = useRef<HTMLDivElement | null>(null);
+  const router = useRouter();
 
-//   // fetch paginated products
-//   const fetchProducts = async () => {
-//     if (loading || !hasMore) return;
+  useEffect(() => {
+    const fetchProductByCategory = async () => {
+      try {
+        setLoading(true);
+        setError(null);
 
-//     setLoading(true);
-//     const newProducts = await getAllProduct(LIMIT, skip);
+        const data = await getProductsByCategory(categorySlug);
+        setProducts(data);
+      } catch (err) {
+        console.error(err);
+        setError("Failed to load products");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-//     setProducts((prev) => [...prev, ...newProducts]);
-//     setSkip((prev) => prev + LIMIT);
+    fetchProductByCategory();
+  }, [categorySlug]);
 
-//     if (newProducts.length < LIMIT) {
-//       setHasMore(false); // industry stop condition
-//     }
+  if (loading) {
+    return (
+      <div className="py-10 text-center text-gray-500">
+        Loading products...
+      </div>
+    );
+  }
 
-//     setLoading(false);
-//   };
+  if (error) {
+    return (
+      <div className="py-10 text-center text-red-500">
+        {error}
+      </div>
+    );
+  }
 
-//   // initial fetch
-//   useEffect(() => {
-//     fetchProducts();
-//   }, []);
+  if (!products.length) {
+    return (
+      <div className="py-10 text-center text-gray-500">
+        No products found in this category.
+      </div>
+    );
+  }
 
-//   // group by category
-//   const categoryMap: Record<string, Product[]> = {};
-//   products.forEach((p) => {
-//     if (!categoryMap[p.category]) categoryMap[p.category] = [];
-//     categoryMap[p.category].push(p);
-//   });
+  return (
+    <section className="px-4 py-8 max-w-7xl mx-auto">
+      <h1 className="text-2xl font-semibold capitalize mb-6">
+        {categorySlug}
+      </h1>
 
-//   const categories = Object.entries(categoryMap);
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {products.map((product) => (
+          <div
+            key={product.id}
+            onClick={() => router.push(`/product/product-details/${product.id}`)}
+            className="border rounded-lg p-4 cursor-pointer hover:shadow-md transition"
+          >
+            <div className="relative h-48 mb-3">
+              <Image
+                src={product.thumbnail}
+                alt={product.title}
+                fill
+                className="object-cover rounded"
+              />
+            </div>
 
-//   // observe LAST category (Amazon style)
-//   useEffect(() => {
-//     if (!lastCategoryRef.current) return;
+            <h2 className="font-medium text-sm line-clamp-2">
+              {product.title}
+            </h2>
 
-//     if (observer.current) observer.current.disconnect();
+            <p className="mt-1 font-semibold">₹{product.price}</p>
 
-//     observer.current = new IntersectionObserver(([entry]) => {
-//       if (entry.isIntersecting) {
-//         setVisibleCategories((prev) => prev + CATEGORIES_PER_LOAD);
-//         fetchProducts(); // prefetch next batch
-//       }
-//     });
+            <p className="text-xs text-gray-500 mt-1">
+              {product.brand}
+            </p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+};
 
-//     observer.current.observe(lastCategoryRef.current);
-//   }, [categories.length]);
-
-//   return (
-//     <section className="pt-20 pb-16">
-//       <div className="container w-11/12 md:w-4/5 mx-auto space-y-16">
-//         {categories.slice(0, visibleCategories).map(([category, items], index) => {
-//           const isLast = index === visibleCategories - 1;
-
-//           return (
-//             <div key={category} ref={isLast ? lastCategoryRef : null}>
-//               <CategorySection category={category}/>
-//             </div>
-//           );
-//         })}
-
-//         {loading && (
-//           <div className="flex justify-center pt-6">
-//             <ClipLoader size={30} />
-//           </div>
-//         )}
-//       </div>
-//     </section>
-//   );
-// };
-
-// export default AllProduct;
+export default Allproducts;

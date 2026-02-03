@@ -1,8 +1,8 @@
 import SearchPage from "@/components/search/SearchPage";
 export const dynamic = "force-dynamic";
-const search = () => {
+const Page = () => {
   return (
     <SearchPage/>
   )
 }
-export default search;
+export default Page;
