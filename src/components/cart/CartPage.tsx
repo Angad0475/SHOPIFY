@@ -35,101 +35,92 @@ const CartPage = () => {
   const vat = Number((subtotal * 0.15).toFixed(2));
   const totalPriceVat = Number((subtotal + vat).toFixed(2));
 
-  const addItemHandler = (product: CartItem["product"]) => {
-    dispatch(addItem(product));
-  };
-
-  const removeItemHandler = (id: number) => {
-    dispatch(removeItem(id));
-  };
-
-  const handleSuccess = (details: any) => {
-    console.log("Payment Success:", details);
+  const handleSuccess = () => {
     dispatch(clearCart());
     router.push("/success");
   };
 
   return (
-    <div className="mt-10 min-h-[60vh]">
-      {/* EMPTY CART */}
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.35 }}
+      className="min-h-screen bg-gray-50 py-10"
+    >
+      {/* EMPTY STATE */}
       {items.length === 0 && (
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="flex items-center w-full h-[80vh] flex-col justify-center text-center"
-        >
+        <div className="flex flex-col items-center justify-center h-[70vh] text-center px-4">
           <Image
             src="/images/cart.svg"
-            alt="empty_cart"
-            width={360}
-            height={360}
+            alt="empty"
+            width={280}
+            height={280}
           />
-          <h1 className="mt-8 text-xl font-semibold text-gray-800">
+          <h2 className="mt-6 text-xl font-semibold text-gray-800">
             Your cart is empty
-          </h1>
-          <Link href="/" className="mt-5">
-            <button className="bg-black px-6 py-3 text-sm text-white rounded-xl hover:scale-105 transition">
-              Shop Now
+          </h2>
+          <Link href="/" className="mt-6">
+            <button className="bg-black text-white px-6 py-3 rounded-full hover:opacity-90 transition">
+              Continue Shopping
             </button>
           </Link>
-        </motion.div>
+        </div>
       )}
 
-      {/* CART CONTENT */}
+      {/* CART */}
       {items.length > 0 && (
-        <div className="md:w-4/5 w-[95%] mx-auto grid grid-cols-1 lg:grid-cols-6 gap-12">
-          {/* CART ITEMS */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="rounded-xl border border-gray-200 bg-white overflow-hidden lg:col-span-4"
-          >
-            <h1 className="px-6 py-4 text-lg font-medium text-gray-800 border-b">
-              Your Cart <span className="text-gray-500">({totalQuantity})</span>
+        <div className="max-w-6xl mx-auto px-4 grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* PRODUCTS */}
+          <div className="lg:col-span-2 space-y-4">
+            <h1 className="text-xl font-semibold text-gray-800 mb-2">
+              Shopping Cart ({totalQuantity})
             </h1>
 
             {items.map((item) => (
               <motion.div
                 key={item.product.id}
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="flex flex-col sm:flex-row gap-6 p-6 border-b last:border-none"
+                initial={{ opacity: 0, scale: 0.98 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.25 }}
+                className="bg-white rounded-2xl p-4 shadow-sm border flex gap-4"
               >
                 <Image
                   src={item.product.thumbnail}
                   alt={item.product.title}
-                  width={140}
-                  height={140}
-                  className="rounded-lg border"
+                  width={100}
+                  height={100}
+                  className="rounded-xl object-contain"
                 />
 
                 <div className="flex-1">
-                  <h2 className="text-base font-medium text-gray-800">
+                  <h3 className="text-sm font-medium text-gray-800">
                     {item.product.title}
-                  </h2>
+                  </h3>
                   <p className="text-xs text-gray-500 mt-1">
                     {item.product.category}
                   </p>
 
-                  <div className="flex items-center justify-between mt-3">
-                    <span className="font-semibold text-gray-800">
+                  <div className="flex items-center justify-between mt-4">
+                    <span className="font-semibold text-gray-900">
                       ${item.product.price}
                     </span>
                     <span className="text-sm text-gray-500">
-                      Qty: {item.quantity}
+                      Qty {item.quantity}
                     </span>
                   </div>
 
                   <div className="flex gap-4 mt-4">
                     <button
-                      className="text-sm px-4 py-2 rounded-lg bg-black text-white hover:bg-gray-900 transition"
-                      onClick={() => addItemHandler(item.product)}
+                      onClick={() => dispatch(addItem(item.product))}
+                      className="text-xs px-4 py-2 rounded-full border border-gray-300 hover:bg-gray-100 transition"
                     >
-                      Add More
+                      + Add
                     </button>
                     <button
-                      className="text-sm text-red-500 hover:underline"
-                      onClick={() => removeItemHandler(item.product.id)}
+                      onClick={() =>
+                        dispatch(removeItem(item.product.id))
+                      }
+                      className="text-xs text-red-500 hover:underline"
                     >
                       Remove
                     </button>
@@ -137,45 +128,47 @@ const CartPage = () => {
                 </div>
               </motion.div>
             ))}
-          </motion.div>
+          </div>
 
           {/* SUMMARY */}
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="lg:col-span-2"
+            className="bg-white rounded-3xl p-6 shadow-lg h-fit lg:sticky lg:top-24"
           >
-            <div className="bg-gradient-to-br from-indigo-900 to-indigo-950 p-6 rounded-2xl shadow-xl lg:sticky lg:top-24">
-              <h1 className="text-center mb-6 text-white text-lg font-medium">
-                Order Summary
-              </h1>
+            <h2 className="text-lg font-semibold text-gray-800 mb-6">
+              Order Summary
+            </h2>
 
-              <div className="flex text-sm text-indigo-100 justify-between">
-                <span>Subtotal</span>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between">
+                <span className="text-gray-500">Subtotal</span>
                 <span>${subtotal}</span>
               </div>
-
-              <div className="flex text-sm text-indigo-100 justify-between mt-2">
-                <span>VAT (15%)</span>
+              <div className="flex justify-between">
+                <span className="text-gray-500">VAT (15%)</span>
                 <span>${vat}</span>
               </div>
-
-              <div className="flex text-white justify-between mt-4 text-base font-semibold">
+              <div className="flex justify-between text-base font-semibold border-t pt-4">
                 <span>Total</span>
                 <span>${totalPriceVat}</span>
               </div>
-
-              <div className="mt-6">
-                <PaypalButton
-                  amount={String(totalPriceVat)}
-                  onSuccess={handleSuccess}
-                />
-              </div>
             </div>
+
+            <div className="mt-6">
+              <PaypalButton
+                amount={String(totalPriceVat)}
+                onSuccess={handleSuccess}
+              />
+            </div>
+
+            <p className="text-xs text-gray-400 text-center mt-4">
+              Secure checkout · Powered by PayPal
+            </p>
           </motion.div>
         </div>
       )}
-    </div>
+    </motion.div>
   );
 };
 

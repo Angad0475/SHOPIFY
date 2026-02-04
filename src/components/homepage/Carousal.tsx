@@ -2,37 +2,33 @@
 
 import { useEffect, useState } from "react";
 import Image, { StaticImageData } from "next/image";
+import { motion } from "framer-motion";
 
 interface ImageProps {
   images: StaticImageData[];
 }
 
 const Carousel = ({ images }: ImageProps) => {
-  const slides = [...images, images[0]]; // clone only at end
+  const slides = [...images, images[0]]; // clone first at end
 
   const [index, setIndex] = useState(0);
   const [animate, setAnimate] = useState(true);
-  const [ispaused, setisPaused] = useState(false);
+  const [isPaused, setIsPaused] = useState(false);
 
+  const stopSlide = () => setIsPaused(true);
+  const startSlide = () => setIsPaused(false);
 
-  const stopslide = () => {
-    setisPaused(true);
-  }
-  const startSlide = () => {
-    setisPaused(false);
-  } 
-
-  // auto forward slide
+  // Auto forward slide
   useEffect(() => {
-    if (ispaused) return;
+    if (isPaused) return;
     const timer = setInterval(() => {
       setIndex((prev) => prev + 1);
     }, 4500);
 
     return () => clearInterval(timer);
-  }, [ispaused]);
+  }, [isPaused]);
 
-  // reset after clone
+  // Reset after clone
   useEffect(() => {
     if (index === slides.length - 1) {
       setTimeout(() => {
@@ -42,52 +38,73 @@ const Carousel = ({ images }: ImageProps) => {
     }
   }, [index, slides.length]);
 
-  // re-enable animation
+  // Re-enable animation
   useEffect(() => {
     if (!animate) requestAnimationFrame(() => setAnimate(true));
   }, [animate]);
 
-  const forward = () => {
-    setIndex((prev) => prev + 1);
-  };
+  const forward = () => setIndex((prev) => prev + 1);
+  const backward = () => setIndex((prev) => prev - 1);
 
   return (
-    <div className="relative w-full overflow-hidden">
-      <div
-        className={`flex ${
-          animate ? "transition-transform duration-500 ease-in-out" : ""
-        }`}
-        style={{ transform: `translateX(-${index * 100}%)` }}
-      >
-        {slides.map((src, i) => (
-          <div key={i} className="min-w-full" onMouseEnter={stopslide} onMouseLeave={startSlide}>
-            <Image
-              src={src}
-              alt=""
-              width={1700}
-              height={550}
-              className="rounded-2xl object-cover"
-            />
-          </div>
-        ))}
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+      className="container mx-auto w-full"
+    >
+      <div className="relative w-full overflow-hidden">
+        {/* Carousel slides */}
+        <div
+          className={`flex ${animate ? "transition-transform duration-500 ease-in-out" : ""}`}
+          style={{ transform: `translateX(-${index * 100}%)` }}
+          onMouseEnter={stopSlide}
+          onMouseLeave={startSlide}
+        >
+          {slides.map((src, i) => (
+            <div key={i} className="min-w-full">
+              <Image
+                src={src}
+                alt={`slide-${i}`}
+                width={1700}
+                height={550}
+                className="rounded-2xl object-cover w-full"
+              />
+            </div>
+          ))}
+        </div>
+
+        {/* Desktop buttons on sides */}
+        <button
+          onClick={backward}
+          className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 text-white px-4 py-2 rounded-full hover:bg-black/60 transition-all duration-300 sm:block hidden"
+        >
+          ‹
+        </button>
+        <button
+          onClick={forward}
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 text-white px-4 py-2 rounded-full hover:bg-black/60 transition-all duration-300 sm:block hidden"
+        >
+          ›
+        </button>
       </div>
 
-      {/* Prev (also forward) */}
-      <button
-        onClick={forward}
-        className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 text-white px-4 py-2 rounded-full"
-      >
-        ‹
-      </button>
-
-      {/* Next (forward) */}
-      <button
-        onClick={forward}
-        className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 text-white px-4 py-2 rounded-full"
-      >
-        ›
-      </button>
-    </div>
+      {/* Mobile buttons below carousel */}
+      <div className="flex justify-center gap-6 mt-3 sm:hidden">
+        <button
+          onClick={backward}
+          className="bg-black/40 text-white px-6 py-2 rounded-full hover:bg-black/60 transition-all duration-300"
+        >
+          ‹
+        </button>
+        <button
+          onClick={forward}
+          className="bg-black/40 text-white px-6 py-2 rounded-full hover:bg-black/60 transition-all duration-300"
+        >
+          ›
+        </button>
+      </div>
+    </motion.div>
   );
 };
 

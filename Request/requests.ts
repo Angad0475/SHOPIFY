@@ -14,13 +14,13 @@ export async function getAllProduct(limit: number, skip: number) {
 
 export async function getProductsByCategory(
   category: string,
-  // limit: number,
-  // skip: number
+  limit: number,
+  skip: number
 ) {
   const res = await axios.get(
-    `https://dummyjson.com/products/category/${category}?limit=0`
+    `https://dummyjson.com/products/category/${category}?limit=${limit}&skip=${skip}`
   );
-  return res.data.products;
+  return res.data;
 }
 
 export async function searchProduct(query: string) {

@@ -46,7 +46,7 @@ export default function ProductDetails({ id }: Props) {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 text-gray-700">
         Loading product...
       </div>
     );
@@ -54,7 +54,7 @@ export default function ProductDetails({ id }: Props) {
 
   if (!product) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-900 via-gray-900 to-black text-white">
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 text-gray-700">
         Product not found
       </div>
     );
@@ -64,112 +64,71 @@ export default function ProductDetails({ id }: Props) {
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.6 }}
-      className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-slate-900 flex items-center justify-center px-4"
+      transition={{ duration: 0.5 }}
+      className="min-h-screen bg-gray-50 px-4 py-10 flex justify-center"
     >
       <motion.div
-        initial={{ y: 40, opacity: 0 }}
+        initial={{ y: 30, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, ease: "easeOut" }}
-        className="max-w-5xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden grid md:grid-cols-2"
+        transition={{ duration: 0.5 }}
+        className="w-full max-w-5xl bg-white rounded-2xl shadow-lg overflow-hidden
+                   flex flex-col md:grid md:grid-cols-2"
       >
         {/* Image Section */}
-        <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{ delay: 0.2, duration: 0.5 }}
-          className="bg-gray-100 flex items-center justify-center p-10"
-        >
+        <div className="bg-gray-100 flex items-center justify-center p-6 sm:p-10">
           <Image
             src={product.thumbnail}
             alt={product.title}
-            width={350}
-            height={350}
-            className="object-contain rounded-xl"
+            width={320}
+            height={320}
+            className="object-contain rounded-lg w-full max-w-[280px] sm:max-w-[320px]"
             priority
           />
-        </motion.div>
+        </div>
 
         {/* Details Section */}
-        <motion.div
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: {},
-            visible: {
-              transition: {
-                staggerChildren: 0.12,
-              },
-            },
-          }}
-          className="p-8 flex flex-col justify-between"
-        >
+        <div className="p-6 sm:p-8 flex flex-col justify-between">
           <div>
-            <motion.p
-              variants={{
-                hidden: { opacity: 0, y: 10 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              className="text-sm uppercase tracking-wide text-gray-500"
-            >
+            <p className="text-xs sm:text-sm uppercase tracking-wide text-gray-500">
               {product.category}
-            </motion.p>
+            </p>
 
-            <motion.h1
-              variants={{
-                hidden: { opacity: 0, y: 10 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              className="text-3xl font-bold text-gray-900 mt-2"
-            >
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mt-2">
               {product.title}
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              variants={{
-                hidden: { opacity: 0, y: 10 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              className="text-gray-600 mt-4 leading-relaxed"
-            >
+            <p className="text-gray-600 mt-4 text-sm sm:text-base leading-relaxed">
               {product.description}
-            </motion.p>
+            </p>
 
-            <motion.div
-              variants={{
-                hidden: { opacity: 0, y: 10 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              className="flex items-center mt-4"
-            >
+            {/* Rating */}
+            <div className="flex items-center mt-4">
               <span className="text-yellow-500 text-lg">★</span>
               <span className="ml-2 text-sm text-gray-600">
                 {product.rating
                   ? `${product.rating} / 5 rating`
                   : "No ratings yet"}
               </span>
-            </motion.div>
+            </div>
 
-            <motion.p
-              variants={{
-                hidden: { opacity: 0, y: 10 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              className="text-3xl font-semibold text-gray-900 mt-6"
-            >
+            {/* Price */}
+            <p className="text-2xl sm:text-3xl font-semibold text-gray-900 mt-6">
               ${product.price}
-            </motion.p>
+            </p>
           </div>
 
+          {/* Add to Cart */}
           <motion.button
             whileHover={{ scale: 1.03 }}
             whileTap={{ scale: 0.97 }}
             onClick={handleAddItem}
-            className="mt-8 w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold py-4 rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl"
+            className="mt-8 w-full bg-indigo-600 hover:bg-indigo-700
+                       text-white font-semibold py-3 sm:py-4
+                       rounded-xl transition-all shadow-md"
           >
             🛒 Add to Cart
           </motion.button>
-        </motion.div>
+        </div>
       </motion.div>
     </motion.div>
   );

@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { getAllCategory } from "../../../Request/requests";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
+
 const Category = () => {
   const [categories, setCategories] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -24,10 +26,9 @@ const Category = () => {
     getCategories();
   }, []);
 
-  // ✅ Conditional rendering belongs HERE (not in useEffect)
   if (loading) {
     return (
-      <div className="pt-16 pb-12 text-center text-gray-500">
+      <div className="pt-20 pb-16 text-center text-gray-500">
         Loading categories...
       </div>
     );
@@ -35,32 +36,85 @@ const Category = () => {
 
   if (categories.length === 0) {
     return (
-      <div className="pt-16 pb-12 text-center">
-        <p className="text-sm text-gray-500">No categories available</p>
+      <div className="pt-20 pb-16 text-center text-gray-500">
+        No categories available
       </div>
     );
   }
 
   return (
-    <section className="relative pt-20 pb-16 bg-gradient-to-br from-slate-50 via-white to-indigo-50">
+    <section className="relative pt-5 pb-24 bg-gradient-to-br from-slate-50 via-white to-indigo-50">
       <div className="container w-11/12 md:w-4/5 mx-auto">
-        <div className="text-center mb-12">
-          <h1 className="text-base md:text-7xl font-bold text-gray-800">
+
+        {/* Heading */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: "easeOut" }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h1 className="text-4xl sm:text-5xl md:text-7xl font-extrabold text-gray-900">
             Shop by Category
           </h1>
-          <div className="w-10 h-[2px] bg-indigo-500 mx-auto mt-3 rounded-full" />
-        </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-          {categories.map((category) => (
-            <div
+          <p className="mt-5 text-gray-500 text-base sm:text-lg">
+            Discover products curated just for you
+          </p>
+
+          <div className="w-16 h-[3px] bg-gradient-to-r from-indigo-500 to-blue-500 mx-auto mt-6 rounded-full" />
+        </motion.div>
+
+        {/* Grid */}
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-8">
+          {categories.map((category, index) => (
+            <motion.div
               key={category.slug}
-              className="p-6 rounded-xl bg-white border text-center cursor-pointer hover:shadow-md" onClick={() => router.push(`category/${category.name.replace(" ", "-")}`)}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: index * 0.02,
+                duration: 0.2,
+                ease: "easeOut",
+              }}
+              viewport={{ once: true }}
+              
+              whileTap={{ scale: 0.90 }}
+              onClick={() =>
+                router.push(
+                  `category/${category.name.replace(" ", "-")}`
+                )
+              }
+              className="
+                relative overflow-hidden
+                p-8 rounded-3xl cursor-pointer
+                bg-white border border-gray-200
+                shadow-sm hover:shadow-2xl
+                transition-all duration-300
+                group
+              "
             >
-              <p className="capitalize font-medium">
+              {/* Hover glow */}
+              <div
+                className="
+                  absolute inset-0 opacity-0 group-hover:opacity-100
+                  transition-opacity duration-300
+                  bg-gradient-to-br from-indigo-50 via-transparent to-blue-50
+                "
+              />
+
+              <p
+                className="
+                  relative z-10
+                  capitalize font-semibold
+                  text-gray-800 text-[15px] md:text-lg sm:text-md
+                  group-hover:text-indigo-600
+                  transition-colors duration-300 text-center
+                "
+              >
                 {category.name}
               </p>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>
