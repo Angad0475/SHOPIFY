@@ -5,9 +5,9 @@ export async function getAllCategory() {
   return res.data;
 }
 
-export async function getAllProduct(limit: number, skip: number) {
+export async function getAllProduct() {
   const res = await axios.get(
-    `https://dummyjson.com/products?limit=${limit}&skip=${skip}`
+    `https://dummyjson.com/products?limit=0`
   );
   return res.data.products;
 }
